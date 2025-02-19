@@ -15,7 +15,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 'python-3.14.0-alpha.5-linux-20.04-x64.tar.gz'  # Use the latest Python 3 version
+          python-version: '3.14.0-alpha.5'  # Use the latest Python 3 version
 
       - name: Install Dependencies
         run: pip install -r requirements.txt
