@@ -21,19 +21,20 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run Python Script
-        env:  # Pass GitHub secrets as environment variables
+        env:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
           BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}
           CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
           CONSUMER_SECRET: ${{ secrets.CONSUMER_SECRET }}
           VISUALCROSSINGAPI: ${{ secrets.VISUALCROSSINGAPI }}
-        run: python EarthsTemperature.py  # Replace with your script filename
+        run: python EarthsTemperature.py
 
       - name: Commit and Push Changes (if data is updated)
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add /*.json
-          git commit -m "Update output.json [GitHub Actions]" || echo "No changes to commit"
+          git add *.json  # ✅ Corrected file tracking
+          git commit -m "Update JSON files [GitHub Actions]" || echo "No changes to commit"
           git push origin main
+
