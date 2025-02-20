@@ -37,7 +37,7 @@ def store(dateval, jsonData):
 def fetch_weather_data(lat, lon, dateval, api_key):
     url = f'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{lat},{lon}/{dateval}/{dateval}?unitGroup=metric&include=days&key={api_key}&contentType=json'
     response = requests.get(url)
-
+    print(f"Fetching data for {lat},{lon} on {dateval} - Status: {response.status_code}")
     if response.status_code == 200:
         return response.json()
     else:
