@@ -87,6 +87,27 @@ def store(dateval,jsonData,lat,lon):
 def findmean(dateval):
     date_obj = datetime.strptime(str(dateval), '%Y-%m-%d')
     formatted_date = date_obj.strftime('%b%Y')
+    with open(f'{formatted_date}.json', 'r') as result:
+        jsonData = json.load(result)
+
+    temp = []
+    
+    for i in range(len(jsonData[dateval])):
+        for key in jsonData[dateval][i]:
+            # Check if the value is a dictionary (valid API response)
+            if isinstance(jsonData[dateval][i][key], dict) and 'days' in jsonData[dateval][i][key]:
+                t = jsonData[dateval][i][key]['days'][0]['temp']
+                temp.append(t)
+    
+    # Ensure temp list is not empty before calculating mean
+    if len(temp) == 0:
+        raise ValueError(f"No valid temperature data found for {dateval}")
+
+    return sum(temp) / len(temp)
+
+'''def findmean(dateval):
+    date_obj = datetime.strptime(str(dateval), '%Y-%m-%d')
+    formatted_date = date_obj.strftime('%b%Y')
     with open(f'{formatted_date}.json','r') as result:
         jsonData = json.load(result)
     temp=[]
@@ -99,7 +120,7 @@ def findmean(dateval):
     m=0
     for i in range(len(temp)):
         m=m+temp[i]
-    return(m/len(temp))
+    return(m/len(temp))'''
 
 print('Bot has been Activated')
 datelist=todayto1yrs()
