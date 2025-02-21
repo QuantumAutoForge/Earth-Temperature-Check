@@ -33,7 +33,7 @@ if __name__ == "__main__":
     print("Processing stored weather data...")
 
     datelist = [str(datetime.today().date() - relativedelta(days=2)), str(datetime.today().date() - relativedelta(years=1))]
-    print(datelist)
+    datelist=[2025-02-19,2024-02-19]
     tempdiff = round(findmean(datelist[0]) - findmean(datelist[1]), 2)
     
     print(f'Temperature difference calculated: {tempdiff}')
