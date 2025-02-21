@@ -5,7 +5,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 def findmean(dateval):
-    date_obj = datetime.strptime('2025-02-19', '%Y-%m-%d')
+    date_obj = datetime.strptime(dateval, '%Y-%m-%d')
     formatted_date = date_obj.strftime('%b%Y')
     file_path = f'{formatted_date}.json'
 
@@ -33,6 +33,7 @@ if __name__ == "__main__":
     print("Processing stored weather data...")
 
     datelist = [str(datetime.today().date() - relativedelta(days=2)), str(datetime.today().date() - relativedelta(years=1))]
+    print(datelist)
     tempdiff = round(findmean(datelist[0]) - findmean(datelist[1]), 2)
     
     print(f'Temperature difference calculated: {tempdiff}')
