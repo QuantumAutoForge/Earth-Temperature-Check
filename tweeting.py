@@ -5,7 +5,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 def findmean(dateval):
-    date_obj = datetime.strptime(dateval, '%Y-%m-%d')
+    date_obj = datetime.strptime('2025-02-19', '%Y-%m-%d')
     formatted_date = date_obj.strftime('%b%Y')
     file_path = f'{formatted_date}.json'
 
