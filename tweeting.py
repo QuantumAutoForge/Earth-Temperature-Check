@@ -12,6 +12,7 @@ def findmean(dateval):
     try:
         with open(file_path, 'r') as result:
             jsonData = json.load(result)
+            print(jsonData)
     except FileNotFoundError:
         raise ValueError(f"File {file_path} not found! No data available for {dateval}")
 
@@ -31,7 +32,7 @@ def findmean(dateval):
 if __name__ == "__main__":
     print("Processing stored weather data...")
 
-    datelist = [str(datetime.today().date() - relativedelta(days=1)), str(datetime.today().date() - relativedelta(years=1))]
+    datelist = [str(datetime.today().date() - relativedelta(days=2)), str(datetime.today().date() - relativedelta(years=1))]
     tempdiff = round(findmean(datelist[0]) - findmean(datelist[1]), 2)
     
     print(f'Temperature difference calculated: {tempdiff}')
