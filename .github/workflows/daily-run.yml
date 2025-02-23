@@ -29,9 +29,17 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add "*.json"
-          git commit -m "Auto-save weather data before pulling" || echo "No changes to commit"
+
+          # Stash local changes to prevent merge conflicts
+          git stash --include-untracked
+
+          # Pull latest changes
           git pull origin main --rebase
+
+          # Reapply stashed changes
+          git stash pop || echo "No local changes to reapply"
+
+          # Add and commit JSON updates
           git add "*.json"
           git commit -m "Update weather data [GitHub Actions]" || echo "No changes to commit"
           git push origin main
