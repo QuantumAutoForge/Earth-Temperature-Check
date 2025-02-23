@@ -32,7 +32,7 @@ def findmean(dateval):
 if __name__ == "__main__":
     print("Processing stored weather data...")
 
-    datelist = [str(datetime.today().date() - relativedelta(days=4)), str(datetime.today().date() - relativedelta(years=1))]
+    datelist = [str(datetime.today().date() - relativedelta(days=4)), str(datetime.today().date() - relativedelta(years=1,days=4))]
     
     tempdiff = round(findmean(datelist[0]) - findmean(datelist[1]), 2)
     
