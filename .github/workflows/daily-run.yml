@@ -2,15 +2,14 @@ name: Daily Temperature Collection & Tweet
 
 on:
   schedule:
-    - cron: '30 12 * * *'  # Runs at 12:30 PM UTC (6:00 PM IST)
+    - cron: '30 12 */2 * *'  # Runs every 2 days at 12:30 PM UTC
   workflow_dispatch:  # Allows manual triggering
 
 jobs:
   collect-data:
     runs-on: ubuntu-latest
-    # NOTE: The maximum timeout for jobs running on GitHub-hosted runners is 24 hours (1440 minutes) on paid plans.
-    # A 48-hour timeout is not possible.
-    timeout-minutes: 1440
+    # NOTE: The maximum timeout for jobs running on GitHub-hosted runners on the free tier is 6 hours (360 minutes).
+    timeout-minutes: 360
     permissions:
       contents: write
     steps:
@@ -50,9 +49,8 @@ jobs:
   tweet-temperature:
     runs-on: ubuntu-latest
     needs: collect-data
-    # NOTE: The maximum timeout for jobs running on GitHub-hosted runners is 24 hours (1440 minutes) on paid plans.
-    # A 48-hour timeout is not possible.
-    timeout-minutes: 1440
+    # NOTE: The maximum timeout for jobs running on GitHub-hosted runners on the free tier is 6 hours (360 minutes).
+    timeout-minutes: 360
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
