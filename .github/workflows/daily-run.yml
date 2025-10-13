@@ -8,6 +8,11 @@ on:
 jobs:
   collect-data:
     runs-on: ubuntu-latest
+    # NOTE: The maximum timeout for jobs running on GitHub-hosted runners is 24 hours (1440 minutes) on paid plans.
+    # A 48-hour timeout is not possible.
+    timeout-minutes: 1440
+    permissions:
+      contents: write
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -20,33 +25,34 @@ jobs:
       - name: Install Dependencies
         run: pip install -r requirements.txt
 
-      - name: Collect Weather Data
+      - name: Pull latest changes, collect data, and push
         env:
           VISUALCROSSINGAPI: ${{ secrets.VISUALCROSSINGAPI }}
-        run: python dataupdation.py
-
-      - name: Commit and Push Changes (if data is updated)
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Stash local changes to prevent merge conflicts
-          git stash --include-untracked
-
-          # Pull latest changes
+          # Pull the latest changes from the repository
           git pull origin main --rebase
 
-          # Reapply stashed changes
-          git stash pop || echo "No local changes to reapply"
+          # Run the data collection script
+          python dataupdation.py
 
-          # Add and commit JSON updates
-          git add "*.json"
-          git commit -m "Update weather data [GitHub Actions]" || echo "No changes to commit"
-          git push origin main
+          # Check for changes, and commit and push if any exist
+          if ! git diff --quiet "*.json"; then
+            git add "*.json"
+            git commit -m "Update weather data [GitHub Actions]"
+            git push origin main
+          else
+            echo "No changes to commit"
+          fi
 
   tweet-temperature:
     runs-on: ubuntu-latest
     needs: collect-data
+    # NOTE: The maximum timeout for jobs running on GitHub-hosted runners is 24 hours (1440 minutes) on paid plans.
+    # A 48-hour timeout is not possible.
+    timeout-minutes: 1440
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
